@@ -12,7 +12,7 @@ axiosCached.get = (...args: any[]) => {
     callback({ cache: true, data: { foo: 'hey there' } });
 
     response.then(callback);
-    return response
+    return response;
   };
   response.on = onHandler;
 

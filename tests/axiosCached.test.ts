@@ -4,7 +4,7 @@ describe('axiosCached', () => {
   it('works like normal axios', async () => {
     const { data } = await axios.get('https://postman-echo.com/get?foo1=bar1');
 
-    expect(data.args).toEqual({"foo1": "bar1"});
+    expect(data.args).toEqual({ foo1: 'bar1' });
   });
 
   it('responds with data for get from cache (syncronously)', () => {

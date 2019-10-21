@@ -1,9 +1,13 @@
 {
-  "name": "smartrequests",
+  "name": "axios-cached",
   "version": "1.0.0",
   "description": "",
-  "main": "lib/index.ts",
+  "main": "lib/index.js",
   "scripts": {
+    "prepublishOnly": "npm test && npm run lint",
+    "prepare": "npm run build",
+    "lint": "npm run prettier-check",
+    "build": "tsc",
     "test": "jest",
     "prettier-check": "prettier --check \"./**/*\"",
     "prettier": "prettier --write \"./**/*\""
