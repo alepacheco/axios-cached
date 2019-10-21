@@ -1,0 +1,50 @@
+{
+  "name": "smartrequests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.ts",
+  "scripts": {
+    "test": "jest",
+    "prettier-check": "prettier --check \"./**/*\"",
+    "prettier": "prettier --write \"./**/*\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.19",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.4"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/tests"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "collectCoverageFrom": [
+      "!<rootDir>/node_modules/*/**",
+      "!<rootDir>/tests/*/**",
+      "./*/**"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "tsconfig.test.json"
+      }
+    }
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "bracketSpacing": true,
+    "jsxBracketSameLine": true,
+    "arrowParens": "avoid",
+    "singleQuote": true
+  }
+}
