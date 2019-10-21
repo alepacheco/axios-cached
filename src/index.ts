@@ -1,22 +1,36 @@
 import axios from 'axios';
 
-const axiosCached = (...args: any[]) => {
-  throw new Error('unimplemented');
+const saveToCache = async (url: string, response: any) => {
+  const cache = await caches.open('axios-cached');
+
+  cache.put(url, response);
 };
 
-axiosCached.get = (...args: any[]) => {
-  // @ts-ignore
-  const response = axios.get(...args);
+const getFromCache = async (request: string) => {
+  const cache = await caches.open('axios-cached');
 
-  const onHandler = async (callback: Function) => {
-    callback({ cache: true, data: { foo: 'hey there' } });
+  return cache.match(request);
+};
+
+const cachedGet = (url: string, ...args: any[]) => {
+  // @ts-ignore
+  const response = axios.get(url, ...args).then(response => {
+    saveToCache(url, response.data);
+
+    return response;
+  });
+
+  const onHandler = async (callback: any): Promise<any> => {
+    callback(await getFromCache(url));
 
     response.then(callback);
     return response;
   };
+
+  // @ts-ignore
   response.on = onHandler;
 
-  return response;
+  return response as Promise<any> & { on: Function};
 };
 
-export default axiosCached;
+export default cachedGet;

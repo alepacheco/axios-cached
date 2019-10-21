@@ -1,8 +1,20 @@
-import axios from '../lib';
+/**
+ * @jest-environment jsdom
+ */
 
-describe('axiosCached', () => {
+import cachedGet from '../src';
+
+// @ts-ignore
+global.caches = {
+  open: async () => ({
+    put: () => {},
+    match: () => {},
+  }),
+};
+
+describe('cachedGet', () => {
   it('works like normal axios', async () => {
-    const { data } = await axios.get('https://postman-echo.com/get?foo1=bar1');
+    const { data } = await cachedGet('https://postman-echo.com/get?foo1=bar1');
 
     expect(data.args).toEqual({ foo1: 'bar1' });
   });
@@ -10,7 +22,7 @@ describe('axiosCached', () => {
   it('responds with data for get from cache (syncronously)', () => {
     const eventHandler = jest.fn();
 
-    axios.get('https://postman-echo.com/get?foo1=bar1').on(eventHandler);
+    cachedGet('https://postman-echo.com/get?foo1=bar1').on(eventHandler);
 
     expect(eventHandler).toHaveBeenCalledTimes(1);
     expect(eventHandler.mock.calls[0][0].data).toEqual({ foo: 'hey there' });
@@ -18,9 +30,9 @@ describe('axiosCached', () => {
 
   it('responds with data for get and awaits for server response', async () => {
     const eventHandler = jest.fn();
-    const requestPromise = axios
-      .get('https://postman-echo.com/get?foo1=bar1')
-      .on(eventHandler);
+    const requestPromise = cachedGet(
+      'https://postman-echo.com/get?foo1=bar1'
+    ).on(eventHandler);
 
     expect(eventHandler).toHaveBeenCalledTimes(1);
     expect(eventHandler.mock.calls[0][0].data).toEqual({ foo: 'hey there' });
